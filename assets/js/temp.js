@@ -36,10 +36,13 @@ let MYLIBRARY = {
 
 class Diner {
     // new object created will have all these properties.
-    constructor(entree, dessert, drink) {
+    constructor(entree, dessert, drink, total, tax, tip) {
         this.entree = entree;
         this.dessert = dessert;
         this.drink = drink;
+        this.total = total;
+        this.tax = tax;
+        this.tip = tip;
     }
     randomOrder() {
         let e_num = _.random(0, 2);
@@ -55,53 +58,82 @@ class Diner {
         let dessertPrice = this.dessert.price;
         let drinkPrice = this.drink.price;
 
-        let totalDinersBill = entreePrice + dessertPrice + drinkPrice;
-        console.log(totalDinersBill);
-        return totalDinersBill;
+        this.total = entreePrice + dessertPrice + drinkPrice;
+        console.log(this.total);
+        return this.total;
     }
     calcTax() {
-        // const rate = 0.032;
-        //
-        // let tax = totalDinersBill * rate;
-        // console.log(tax);
+        const rate = 0.032;
+
+        let tax = this.total * rate;
+        tax = tax.toFixed(2);
+        this.tax = parseFloat(tax);
+        console.log(this.tax);
+        return this.tax;
     }
     calcTip() {
-        // const rate = 0.2;
-        //
-        // let tip = totalDinersBill * rate;
-        // console.log(tip);
+        const rate = 0.2;
+
+        let tip = this.total * rate;
+        tip = tip.toFixed(2);
+        this.tip = parseFloat(tip);
+        console.log(this.tip);
+        return this.tip;
     }
 }
 
-class Group {
-  constructor(one, two, three) {
-    this.one = one;
-    this.two = two;
-    this.three = three;
-  }
-  totalBill() {
-    // All diner's bills totaled
-  }
-  totalTip() {
-    // All diner's tips totaled
-  }
-}
+// class Bill extends Diner {
+//   constructor(one, two, three) {
+//     // this.one = one;
+//     // this.two = two;
+//     // this.three = three;
+//   }
+//   totalBill() {
+//
+//   }
+//   totalTip() {
+//
+//   }
+//   eachBill() {
+//
+//   }
+// }
+
+// class Bill {
+//   constructor(one, two, three) {
+//     this.one = one;
+//     this.two = two;
+//     this.three = three;
+//   }
+//   totalBill() {
+//     // All diner's bills totaled
+//   }
+//   totalTip() {
+//     // All diner's tips totaled
+//   }
+// }
 
 function initload() {
     let moe = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
     moe.randomOrder();
     moe.totalDishes();
     moe.calcTax();
+    moe.calcTip();
     let curly = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
     curly.randomOrder();
     curly.totalDishes();
     curly.calcTax();
+    curly.calcTip();
     let larry = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
     larry.randomOrder();
     larry.totalDishes();
     larry.calcTax();
+    larry.calcTip();
 
-    // let party = new Group(moe, curly, larry);
+    // every diner possesses their total, tax, & tip after running the methods
+    // so when passed to Bill(x,y,z) I can say x.total etc.
+
+    // let party = new Bill(moe, curly, larry);
 }
 
 $(document).ready(initload);

@@ -95,12 +95,15 @@
 	
 	var Diner = function () {
 	    // new object created will have all these properties.
-	    function Diner(entree, dessert, drink) {
+	    function Diner(entree, dessert, drink, total, tax, tip) {
 	        _classCallCheck(this, Diner);
 	
 	        this.entree = entree;
 	        this.dessert = dessert;
 	        this.drink = drink;
+	        this.total = total;
+	        this.tax = tax;
+	        this.tip = tip;
 	    }
 	
 	    _createClass(Diner, [{
@@ -121,70 +124,89 @@
 	            var dessertPrice = this.dessert.price;
 	            var drinkPrice = this.drink.price;
 	
-	            var totalDinersBill = entreePrice + dessertPrice + drinkPrice;
-	            console.log(totalDinersBill);
-	            return totalDinersBill;
+	            this.total = entreePrice + dessertPrice + drinkPrice;
+	            console.log(this.total);
+	            return this.total;
 	        }
 	    }, {
 	        key: 'calcTax',
 	        value: function calcTax() {
-	            // const rate = 0.032;
-	            //
-	            // let tax = totalDinersBill * rate;
-	            // console.log(tax);
+	            var rate = 0.032;
+	
+	            var tax = this.total * rate;
+	            tax = tax.toFixed(2);
+	            this.tax = parseFloat(tax);
+	            console.log(this.tax);
+	            return this.tax;
 	        }
 	    }, {
 	        key: 'calcTip',
 	        value: function calcTip() {
-	            // const rate = 0.2;
-	            //
-	            // let tip = totalDinersBill * rate;
-	            // console.log(tip);
+	            var rate = 0.2;
+	
+	            var tip = this.total * rate;
+	            tip = tip.toFixed(2);
+	            this.tip = parseFloat(tip);
+	            console.log(this.tip);
+	            return this.tip;
 	        }
 	    }]);
 	
 	    return Diner;
 	}();
 	
-	var Group = function () {
-	    function Group(one, two, three) {
-	        _classCallCheck(this, Group);
+	// class Bill extends Diner {
+	//   constructor(one, two, three) {
+	//     // this.one = one;
+	//     // this.two = two;
+	//     // this.three = three;
+	//   }
+	//   totalBill() {
+	//
+	//   }
+	//   totalTip() {
+	//
+	//   }
+	//   eachBill() {
+	//
+	//   }
+	// }
 	
-	        this.one = one;
-	        this.two = two;
-	        this.three = three;
-	    }
-	
-	    _createClass(Group, [{
-	        key: 'totalBill',
-	        value: function totalBill() {
-	            // All diner's bills totaled
-	        }
-	    }, {
-	        key: 'totalTip',
-	        value: function totalTip() {
-	            // All diner's tips totaled
-	        }
-	    }]);
-	
-	    return Group;
-	}();
+	// class Bill {
+	//   constructor(one, two, three) {
+	//     this.one = one;
+	//     this.two = two;
+	//     this.three = three;
+	//   }
+	//   totalBill() {
+	//     // All diner's bills totaled
+	//   }
+	//   totalTip() {
+	//     // All diner's tips totaled
+	//   }
+	// }
 	
 	function initload() {
 	    var moe = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    moe.randomOrder();
 	    moe.totalDishes();
 	    moe.calcTax();
+	    moe.calcTip();
 	    var curly = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    curly.randomOrder();
 	    curly.totalDishes();
 	    curly.calcTax();
+	    curly.calcTip();
 	    var larry = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    larry.randomOrder();
 	    larry.totalDishes();
 	    larry.calcTax();
+	    larry.calcTip();
 	
-	    // let party = new Group(moe, curly, larry);
+	    // every diner possesses their total, tax, & tip after running the methods
+	    // so when passed to Bill(x,y,z) I can say x.total etc.
+	
+	    // let party = new Bill(moe, curly, larry);
 	}
 	
 	(0, _jquery2.default)(document).ready(initload);
