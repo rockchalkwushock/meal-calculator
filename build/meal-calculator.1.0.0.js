@@ -109,24 +109,23 @@
 	    _createClass(Diner, [{
 	        key: 'randomOrder',
 	        value: function randomOrder() {
-	            var e_num = _lodash2.default.random(0, 2);
-	            var de_num = _lodash2.default.random(0, 2);
-	            var dr_num = _lodash2.default.random(0, 2);
-	
-	            this.entree = this.entree[e_num];
-	            this.dessert = this.dessert[de_num];
-	            this.drink = this.drink[dr_num];
+	            var keys = Object.keys(MYLIBRARY); //keys[] = all 3 keys of MYLIBRARY.
+	            for (var i = 0; i < keys.length; i++) {
+	                //iterate through keys[].
+	                var key = keys[i]; //key = current index of keys[].
+	                var value = MYLIBRARY[key]; //value[] = all 3 objects of key.
+	                this[key] = value[_lodash2.default.random(0, 2)]; //select random object and return as this[key] (i.e. this.entree)
+	            }
 	        }
 	    }, {
-	        key: 'totalDishes',
-	        value: function totalDishes() {
+	        key: 'orderPrice',
+	        value: function orderPrice() {
 	            var entreePrice = this.entree.price;
 	            var dessertPrice = this.dessert.price;
 	            var drinkPrice = this.drink.price;
 	
 	            this.total = entreePrice + dessertPrice + drinkPrice;
 	            console.log(this.total);
-	            return this.total;
 	        }
 	    }, {
 	        key: 'calcTax',
@@ -137,7 +136,6 @@
 	            tax = tax.toFixed(2);
 	            this.tax = parseFloat(tax);
 	            console.log(this.tax);
-	            return this.tax;
 	        }
 	    }, {
 	        key: 'calcTip',
@@ -148,65 +146,83 @@
 	            tip = tip.toFixed(2);
 	            this.tip = parseFloat(tip);
 	            console.log(this.tip);
-	            return this.tip;
 	        }
 	    }]);
 	
 	    return Diner;
 	}();
 	
-	// class Bill extends Diner {
-	//   constructor(one, two, three) {
-	//     // this.one = one;
-	//     // this.two = two;
-	//     // this.three = three;
-	//   }
-	//   totalBill() {
-	//
-	//   }
-	//   totalTip() {
-	//
-	//   }
-	//   eachBill() {
-	//
-	//   }
-	// }
+	var Bill = function () {
+	    function Bill() {
+	        _classCallCheck(this, Bill);
 	
-	// class Bill {
-	//   constructor(one, two, three) {
-	//     this.one = one;
-	//     this.two = two;
-	//     this.three = three;
-	//   }
-	//   totalBill() {
-	//     // All diner's bills totaled
-	//   }
-	//   totalTip() {
-	//     // All diner's tips totaled
-	//   }
-	// }
+	        this.diners = [];
+	        this.tBill = [];
+	        this.totalTip = [];
+	        this.indvBill = [];
+	    }
+	
+	    _createClass(Bill, [{
+	        key: 'addDiner',
+	        value: function addDiner(diner) {
+	            this.diners.push(diner);
+	        }
+	    }, {
+	        key: 'totalBill',
+	        value: function totalBill() {
+	            _lodash2.default.map(this.diners, function (index) {
+	                var indvTotal = index.total + index.tax + index.tip;
+	                this.tBill.push(indvTotal);
+	            });
+	            _lodash2.default.sum(this.tBill);
+	            console.log(this.tBill);
+	        }
+	    }, {
+	        key: 'totalTip',
+	        value: function totalTip() {
+	            _lodash2.default.map(this.diner, function (index) {
+	                this.totalTip = +index.tip;
+	                console.log(this.totalTip);
+	            });
+	        }
+	    }, {
+	        key: 'eachBill',
+	        value: function eachBill() {
+	            _lodash2.default.map(this.diner, function (index) {
+	                this.indvBill.push(index.total + index.tax + index.tip);
+	                console.log(this.indvBill);
+	            });
+	        }
+	    }]);
+	
+	    return Bill;
+	}();
 	
 	function initload() {
+	    var party = new Bill();
+	
 	    var moe = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    moe.randomOrder();
-	    moe.totalDishes();
+	    moe.orderPrice();
 	    moe.calcTax();
 	    moe.calcTip();
+	    party.addDiner(moe);
 	    var curly = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    curly.randomOrder();
-	    curly.totalDishes();
+	    curly.orderPrice();
 	    curly.calcTax();
 	    curly.calcTip();
+	    party.addDiner(curly);
 	    var larry = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    larry.randomOrder();
-	    larry.totalDishes();
+	    larry.orderPrice();
 	    larry.calcTax();
 	    larry.calcTip();
+	    party.addDiner(larry);
 	
-	    // every diner possesses their total, tax, & tip after running the methods
-	    // so when passed to Bill(x,y,z) I can say x.total etc.
-	
-	    // let party = new Bill(moe, curly, larry);
+	    party.totalBill();
+	    party.totalTip();
+	    party.eachBill();
 	}
 	
 	(0, _jquery2.default)(document).ready(initload);
