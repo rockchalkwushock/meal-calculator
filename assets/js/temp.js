@@ -82,30 +82,36 @@ class Bill {
   constructor() {
     this.diners = [];
     this.tBill = [];
-    this.totalTip = [];
+    this.tTip = [];
     this.indvBill = [];
   }
   addDiner(diner) {
     this.diners.push(diner);
   }
   totalBill() {
+    let billclass = this;
     _.map(this.diners, function(index) {
       let indvTotal = index.total + index.tax + index.tip;
-      this.tBill.push(indvTotal);
+      billclass.tBill.push(indvTotal);
     });
-    _.sum(this.tBill);
-    console.log(this.tBill);
+    billclass.tBill = _.sum(billclass.tBill);
+    console.log(billclass.tBill);
   }
   totalTip() {
-    _.map(this.diner, function(index) {
-      this.totalTip =+ index.tip;
-      console.log(this.totalTip);
+    let billclass = this;
+    _.map(this.diners, function(index) {
+      console.log(index.tip);
+      billclass.tTip.push(index.tip);
+      console.log(billclass.tTip);
     });
+    billclass.tTip = _.sum(billclass.tTip);
+    console.log(billclass.tTip);
   }
   eachBill() {
-    _.map(this.diner, function(index) {
-      this.indvBill.push(index.total + index.tax + index.tip);
-      console.log(this.indvBill);
+    let billclass = this;
+    _.map(this.diners, function(index) {
+      billclass.indvBill.push(index.total + index.tax + index.tip);
+      console.log(billclass.indvBill);
     });
   }
 }
@@ -136,6 +142,12 @@ function initload() {
     party.totalBill();
     party.totalTip();
     party.eachBill();
+
+    console.log("The total bill was: " + party.tBill + ".");
+    console.log("The total tip was: " + party.tTip + ".");
+    console.log("Moe's total bill was " + party.indvBill[0] + " & he paid a tip of " + moe.tip + ".");
+    console.log("Curly's total bill was " + party.indvBill[1] + " & he paid a tip of " + curly.tip + ".");
+    console.log("Larry's total bill was " + party.indvBill[2] + " & he paid a tip of " + larry.tip + ".");
 }
 
 $(document).ready(initload);

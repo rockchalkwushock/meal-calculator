@@ -158,7 +158,7 @@
 	
 	        this.diners = [];
 	        this.tBill = [];
-	        this.totalTip = [];
+	        this.tTip = [];
 	        this.indvBill = [];
 	    }
 	
@@ -170,27 +170,33 @@
 	    }, {
 	        key: 'totalBill',
 	        value: function totalBill() {
+	            var billclass = this;
 	            _lodash2.default.map(this.diners, function (index) {
 	                var indvTotal = index.total + index.tax + index.tip;
-	                this.tBill.push(indvTotal);
+	                billclass.tBill.push(indvTotal);
 	            });
-	            _lodash2.default.sum(this.tBill);
-	            console.log(this.tBill);
+	            billclass.tBill = _lodash2.default.sum(billclass.tBill);
+	            console.log(billclass.tBill);
 	        }
 	    }, {
 	        key: 'totalTip',
 	        value: function totalTip() {
-	            _lodash2.default.map(this.diner, function (index) {
-	                this.totalTip = +index.tip;
-	                console.log(this.totalTip);
+	            var billclass = this;
+	            _lodash2.default.map(this.diners, function (index) {
+	                console.log(index.tip);
+	                billclass.tTip.push(index.tip);
+	                console.log(billclass.tTip);
 	            });
+	            billclass.tTip = _lodash2.default.sum(billclass.tTip);
+	            console.log(billclass.tTip);
 	        }
 	    }, {
 	        key: 'eachBill',
 	        value: function eachBill() {
-	            _lodash2.default.map(this.diner, function (index) {
-	                this.indvBill.push(index.total + index.tax + index.tip);
-	                console.log(this.indvBill);
+	            var billclass = this;
+	            _lodash2.default.map(this.diners, function (index) {
+	                billclass.indvBill.push(index.total + index.tax + index.tip);
+	                console.log(billclass.indvBill);
 	            });
 	        }
 	    }]);
@@ -223,6 +229,12 @@
 	    party.totalBill();
 	    party.totalTip();
 	    party.eachBill();
+	
+	    console.log("The total bill was: " + party.tBill + ".");
+	    console.log("The total tip was: " + party.tTip + ".");
+	    console.log("Moe's total bill was " + party.indvBill[0] + " & he paid a tip of " + moe.tip + ".");
+	    console.log("Curly's total bill was " + party.indvBill[1] + " & he paid a tip of " + curly.tip + ".");
+	    console.log("Larry's total bill was " + party.indvBill[2] + " & he paid a tip of " + larry.tip + ".");
 	}
 	
 	(0, _jquery2.default)(document).ready(initload);
