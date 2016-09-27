@@ -46,7 +46,26 @@
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // ########################################
+	/*
+	*	Table of Contents
+	* 1)  Imports
+	*     a) jquery
+	*     b) lodash
+	*	2)	NAMESPACE
+	*     a)  MYLIBRARY
+	*	3)	Constructors
+	*     a) Diner
+	*     b) Bill
+	* 4)  Child Functions
+	*     a) initLoad( )
+	* 5)  App.js Execution
+	*/
+	// ########################################
+	
+	// ##################################
+	/* ----------- Imports ----------- */
+	// ##################################
 	
 	var _jquery = __webpack_require__(1);
 	
@@ -59,6 +78,12 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// ##################################
+	/* ---------- NAMESPACE ---------- */
+	// ##################################
+	
+	/* ---------- a) MYLIBRARY ---------- */
 	
 	var MYLIBRARY = {
 	    entree: [{
@@ -93,6 +118,15 @@
 	    }]
 	} || {};
 	
+	// #####################################
+	/* ------------- Classes ------------ */
+	// #####################################
+	
+	/* ---------- a) Diner ---------- */
+	
+	// The Diner class will be used for creating individual diners.
+	// A Diner is comprised of all the elements present in `constructor( )`.
+	
 	var Diner = function () {
 	    // new object created will have all these properties.
 	    function Diner(entree, dessert, drink, total, tax, tip) {
@@ -105,6 +139,11 @@
 	        this.tax = tax;
 	        this.tip = tip;
 	    }
+	    // The following will loop through the `keys` of MYLIBRARY.
+	    // It will assign a random value between 0 & 2 and return
+	    // a entree, dessert, & drink object containing 2 key-value pairs
+	    // `name` & `price`.
+	
 	
 	    _createClass(Diner, [{
 	        key: 'randomOrder',
@@ -117,6 +156,10 @@
 	                this[key] = value[_lodash2.default.random(0, 2)]; //select random object and return as this[key] (i.e. this.entree)
 	            }
 	        }
+	        // The following will sum the entree, dessert, & drink of the Diner.
+	        // NOTE: This is not the individual Diner's total bill.
+	        // NOTE: Tax & Tip are not figured in with this data.
+	
 	    }, {
 	        key: 'orderPrice',
 	        value: function orderPrice() {
@@ -125,8 +168,9 @@
 	            var drinkPrice = this.drink.price;
 	
 	            this.total = entreePrice + dessertPrice + drinkPrice;
-	            console.log(this.total);
 	        }
+	        // The following will calculate the tax of the individual Diner's meal.
+	
 	    }, {
 	        key: 'calcTax',
 	        value: function calcTax() {
@@ -135,8 +179,9 @@
 	            var tax = this.total * rate;
 	            tax = tax.toFixed(2);
 	            this.tax = parseFloat(tax);
-	            console.log(this.tax);
 	        }
+	        // The following will calculate the tip of the individual Diner's meal.
+	
 	    }, {
 	        key: 'calcTip',
 	        value: function calcTip() {
@@ -145,12 +190,17 @@
 	            var tip = this.total * rate;
 	            tip = tip.toFixed(2);
 	            this.tip = parseFloat(tip);
-	            console.log(this.tip);
 	        }
 	    }]);
 	
 	    return Diner;
 	}();
+	
+	/* ---------- b) Bill ---------- */
+	
+	// The Bill class will be used for creating a group of Diners.
+	// A group of Diners is comprised of all the elements present in `constructor( )`.
+	
 	
 	var Bill = function () {
 	    function Bill() {
@@ -161,12 +211,19 @@
 	        this.tTip = [];
 	        this.indvBill = [];
 	    }
+	    // The following will push a Diner to diners[] adding them to the group.
+	
 	
 	    _createClass(Bill, [{
 	        key: 'addDiner',
 	        value: function addDiner(diner) {
 	            this.diners.push(diner);
 	        }
+	        // The following will index through diners[] summing the total, tax, & tip of
+	        // the individual Diner. This value will then be pushed to tBill[].
+	        // The values stored in tBill[] are then summed using `_.sum` yielding the
+	        // total bill of the group of Diners.
+	
 	    }, {
 	        key: 'totalBill',
 	        value: function totalBill() {
@@ -176,27 +233,30 @@
 	                billclass.tBill.push(indvTotal);
 	            });
 	            billclass.tBill = _lodash2.default.sum(billclass.tBill);
-	            console.log(billclass.tBill);
 	        }
+	        // The following will index through diners[]. The index.tip value will then be
+	        // pushed to tTip[]. The values stored in tTip[] are then summed using
+	        // `_.sum` yielding the total tip of the group of Diners.
+	
 	    }, {
 	        key: 'totalTip',
 	        value: function totalTip() {
 	            var billclass = this;
 	            _lodash2.default.map(this.diners, function (index) {
-	                console.log(index.tip);
 	                billclass.tTip.push(index.tip);
-	                console.log(billclass.tTip);
 	            });
 	            billclass.tTip = _lodash2.default.sum(billclass.tTip);
-	            console.log(billclass.tTip);
 	        }
+	        // The following will index through diners[] summing the total, tax, & tip of
+	        // the individual Diner. This value will then be pushed to indvBill[].
+	        // The values stored in indvBill[] are the total bills of the individual Diner.
+	
 	    }, {
 	        key: 'eachBill',
 	        value: function eachBill() {
 	            var billclass = this;
 	            _lodash2.default.map(this.diners, function (index) {
 	                billclass.indvBill.push(index.total + index.tax + index.tip);
-	                console.log(billclass.indvBill);
 	            });
 	        }
 	    }]);
@@ -204,8 +264,19 @@
 	    return Bill;
 	}();
 	
-	function initload() {
+	// ########################################
+	/* ---------- Child Functions ---------- */
+	// ########################################
+	
+	/* ---------- a) initLoad ---------- */
+	
+	function initLoad() {
+	    // Create a new instance of Bill.
+	    // party will contain the total bill & total tip of the group.
+	    // it will also contain an array of the summed individual bills.
 	    var party = new Bill();
+	
+	    // Creating 3 instances of Diner and applying appropriate methods.
 	
 	    var moe = new Diner(MYLIBRARY.entree, MYLIBRARY.dessert, MYLIBRARY.drink);
 	    moe.randomOrder();
@@ -226,18 +297,32 @@
 	    larry.calcTip();
 	    party.addDiner(larry);
 	
+	    // Applying appropriate methods to party object.
 	    party.totalBill();
 	    party.totalTip();
 	    party.eachBill();
 	
+	    // Logging out data to the console.
+	    console.log('----------------------------------------------------------------------------------------------');
 	    console.log("The total bill was: " + party.tBill + ".");
 	    console.log("The total tip was: " + party.tTip + ".");
+	    console.log('----------------------------------------------------------------------------------------------');
+	    console.log("Moe had the " + moe.entree.name + ", " + moe.dessert.name + ", " + moe.drink.name + ".");
 	    console.log("Moe's total bill was " + party.indvBill[0] + " & he paid a tip of " + moe.tip + ".");
+	    console.log('----------------------------------------------------------------------------------------------');
+	    console.log("Curly had the " + curly.entree.name + ", " + curly.dessert.name + ", " + curly.drink.name + ".");
 	    console.log("Curly's total bill was " + party.indvBill[1] + " & he paid a tip of " + curly.tip + ".");
+	    console.log('----------------------------------------------------------------------------------------------');
+	    console.log("Larry had the " + larry.entree.name + ", " + larry.dessert.name + ", " + larry.drink.name + ".");
 	    console.log("Larry's total bill was " + party.indvBill[2] + " & he paid a tip of " + larry.tip + ".");
+	    console.log('----------------------------------------------------------------------------------------------');
 	}
 	
-	(0, _jquery2.default)(document).ready(initload);
+	// #########################################
+	/* ---------- App.js Execution ---------- */
+	// #########################################
+	
+	(0, _jquery2.default)(document).ready(initLoad);
 
 /***/ },
 /* 1 */
